@@ -1,0 +1,25 @@
+### Get all episodes
+GET http://localhost:3000/episodes
+
+### Get all episodes ascending
+GET http://localhost:3000/episodes?sort=asc
+
+### Get all episodes descending
+GET http://localhost:3000/episodes?sort=desc
+
+### Get episode by id
+GET http://localhost:3000/episodes/1
+
+### Get featured episodes
+GET http://localhost:3000/episodes/featured
+
+### Create new episode
+POST http://localhost:3000/episodes
+Content-Type: application/json
+
+{
+    "title": "Episode Title",
+    "description": "Episode description",
+    "duration": 1800,
+    "seasonId": 1
+}
