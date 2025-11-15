@@ -5,6 +5,7 @@ import { IEpisodesService } from './interfaces/IEpisodesService';
 import { Episode } from './entities/Episode';
 import { ConfigModule } from '../config/config.module';
 import { IsPositivePipe } from '../pipes/is-positive/is-positive.pipe';
+import { EpisodeDto } from './dtos/EpisodeDto';
 
 describe('EpisodesController', () => {
   let controller: EpisodesController;
@@ -12,10 +13,10 @@ describe('EpisodesController', () => {
 
   beforeEach(async () => {
     const episodes : Episode[] = [
-      { id: 1, title: 'Episode 1', featured: false },
-      { id: 2, title: 'Episode 2', featured: true },
-      { id: 3, title: 'Episode 3', featured: false },
-      { id: 4, title: 'Episode 4', featured: true },
+      { id: 1, title: 'Episode 1', featured: false, publishedAt: new Date() },
+      { id: 2, title: 'Episode 2', featured: true, publishedAt: new Date() },
+      { id: 3, title: 'Episode 3', featured: false, publishedAt: new Date() },
+      { id: 4, title: 'Episode 4', featured: true, publishedAt: new Date() },
     ];
 
     mockEpisodesService = {
@@ -110,7 +111,11 @@ describe('EpisodesController', () => {
 
   describe('POST endpoint', () => {
     it('should create a new episode', async () => {
-      const newEpisode = new Episode(5, 'Episode 5', false);
+      const newEpisode = new EpisodeDto({
+        title: 'New Episode',
+        featured: true,
+        publishedAt: new Date()
+      });
 
       await controller.create(newEpisode);
       

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EpisodesService } from './episodes.service';
 import { ConfigModule } from '../config/config.module';
+import { EpisodeDto } from './dtos/EpisodeDto';
 
 describe('EpisodesService', () => {
   let service: EpisodesService;
@@ -13,10 +14,10 @@ describe('EpisodesService', () => {
 
     service = module.get<EpisodesService>(EpisodesService);
 
-    service.add({ id: 1, title: 'Episode 1', featured: false });
-    service.add({ id: 2, title: 'Episode 2', featured: true });
-    service.add({ id: 3, title: 'Episode 3', featured: false });
-    service.add({ id: 4, title: 'Episode 4', featured: true });
+    service.add(new EpisodeDto({ title: 'Episode 1', featured: false, publishedAt: new Date() }));
+    service.add(new EpisodeDto({ title: 'Episode 2', featured: true, publishedAt: new Date() }));
+    service.add(new EpisodeDto({ title: 'Episode 3', featured: false, publishedAt: new Date() }));
+    service.add(new EpisodeDto({ title: 'Episode 4', featured: true, publishedAt: new Date() }));
   });
 
   it('findAll should return all episodes in ascending order by default', async () => {
