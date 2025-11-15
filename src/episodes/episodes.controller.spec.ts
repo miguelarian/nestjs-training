@@ -96,6 +96,8 @@ describe('EpisodesController', () => {
       const invalidId = -1;
       
       await expect(controller.findById(invalidId)).rejects.toThrow('Episode not found');
+      expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
+      expect(mockEpisodesService.findById).toHaveBeenCalledWith(invalidId);
     });
 
   });
