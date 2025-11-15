@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Episode } from './entities/Episode';
 import { IEpisodesService } from './interfaces/IEpisodesService';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class EpisodesService implements IEpisodesService {    
+    
+    private readonly configService: ConfigService;
     private readonly episodes: Episode[] = [];
+
+    constructor(configService: ConfigService) {}
 
     add(episode: Episode): void {
         this.episodes.push(episode);

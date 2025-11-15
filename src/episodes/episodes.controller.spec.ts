@@ -3,6 +3,7 @@ import { EpisodesController } from './episodes.controller';
 import { EpisodesService } from './episodes.service';
 import { IEpisodesService } from './interfaces/IEpisodesService';
 import { Episode } from './entities/Episode';
+import { ConfigService } from '../config/config.service';
 
 describe('EpisodesController', () => {
   let controller: EpisodesController;
@@ -14,11 +15,14 @@ describe('EpisodesController', () => {
       findFeatured: jest.fn(),
       findById: jest.fn(),
       add: jest.fn(),
-    };
+    } as jest.Mocked<IEpisodesService>;
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EpisodesController],
-      providers: [{ provide: EpisodesService, useValue: mockEpisodesService }],
+      providers: [
+        { provide: EpisodesService, useValue: mockEpisodesService },
+        ConfigService,
+      ],
     }).compile();
 
     controller = module.get<EpisodesController>(EpisodesController);
