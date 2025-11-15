@@ -10,10 +10,17 @@ describe('EpisodesController', () => {
   let mockEpisodesService: IEpisodesService;
 
   beforeEach(async () => {
+    const episodes : Episode[] = [
+      { id: 1, title: 'Episode 1', featured: false },
+      { id: 2, title: 'Episode 2', featured: true },
+      { id: 3, title: 'Episode 3', featured: false },
+      { id: 4, title: 'Episode 4', featured: true },
+    ];
+
     mockEpisodesService = {
-      findAll: jest.fn(),
-      findFeatured: jest.fn(),
-      findById: jest.fn(),
+      findAll: jest.fn().mockReturnValue(episodes),
+      findFeatured: jest.fn().mockReturnValue(episodes.filter(e => e.featured)),
+      findById: jest.fn().mockReturnValue(episodes[0]),
       add: jest.fn(),
     } as jest.Mocked<IEpisodesService>;
 
@@ -30,36 +37,46 @@ describe('EpisodesController', () => {
 
   describe('GET endpoints', () => {
     it('should return all episodes in ascending order by default', () => {
-      controller.findAll();
+      const result = controller.findAll();
       
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
     });
 
     it('should return all episodes in ascending order when sort param is "asc"', () => {
-      controller.findAll('asc');
+      const result = controller.findAll('asc');
       
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
     });
 
     it('should return all episodes in descending order when sort param is "desc"', () => {
-      controller.findAll('desc');
+      const result = controller.findAll('desc');
 
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('desc');
     });
 
     it('should return all episodes in ascending order when sort param is invalid', () => {
-      controller.findAll('invalid' as any);
-      
+      const result = controller.findAll('invalid' as any);
+
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('invalid');
     });
 
     it('should return featured episodes', () => {
-      controller.findFeatured();
+      const result = controller.findFeatured();
       
+      expect(result).toBeDefined();
+      expect(result).toHaveLength(2);
       expect(mockEpisodesService.findFeatured).toHaveBeenCalledTimes(1);
     });
 
