@@ -1,10 +1,10 @@
 {
   "name": "podcast-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Learning NestJS by building a podcast API",
+  "author": "Miguel Vela",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
