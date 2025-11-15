@@ -59,6 +59,8 @@ describe('/episodes E2E', () => {
       .expect((res) => {
         expect(res.body).not.toBeNull();
         expect(res.body.message).toBe('Episode not found');
+        expect(res.body.statusCode).toBe(404);
+        expect(res.body.error).toBe('Not Found');
       });
   });
 
