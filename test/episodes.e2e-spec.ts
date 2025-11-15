@@ -52,6 +52,16 @@ describe('/episodes E2E', () => {
       });
   });
 
+  it('GET /episodes/:id should return 404 when episode not found', async () => {
+    return await request(app.getHttpServer())
+      .get('/episodes/1')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body).not.toBeNull();
+        expect(res.body.message).toBe('Episode not found');
+      });
+  });
+
   it('POST /episodes should return 201', async () => {
     return await request(app.getHttpServer())
       .post('/episodes')

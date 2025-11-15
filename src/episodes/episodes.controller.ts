@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { ConfigService } from '../config/config.service';
 
@@ -23,7 +23,7 @@ export class EpisodesController {
     async findById(@Param('id') id: number) {
         const episode = await this.episodesService.findById(Number(id));
         if (!episode) {
-            throw new Error('Episode not found');
+            throw new NotFoundException('Episode not found');
         }
         return episode;
     }
