@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
-describe('/ Root module path', () => {
+describe('/health E2E', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -16,9 +16,9 @@ describe('/ Root module path', () => {
     await app.init();
   });
 
-  it('GET root path / should return 200', () => {
+  it('GET /health should return 200', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/health')
       .expect(200)
   });
 });
