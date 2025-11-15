@@ -80,6 +80,26 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findFeatured).toHaveBeenCalledTimes(1);
     });
 
+    it('should return episode by id', () => {
+      const result = controller.findById(1);
+      
+      expect(result).toBeDefined();
+      expect(result?.id).toBe(1);
+      expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
+      expect(mockEpisodesService.findById).toHaveBeenCalledWith(1);
+    });
+
+    it('should return undefined for non-existing episode id', () => {
+      (mockEpisodesService.findById as jest.Mock).mockReturnValueOnce(undefined);
+
+      const invalidId = 999;
+      const result = controller.findById(invalidId);
+      
+      expect(result).toBeUndefined();
+      expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
+      expect(mockEpisodesService.findById).toHaveBeenCalledWith(invalidId);
+    });
+
   });
 
   describe('POST endpoint', () => {
