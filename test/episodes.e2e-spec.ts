@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
-import { Episode } from '../src/episodes/entities/Episode';
+import { EpisodeDto } from '../src/episodes/dtos/EpisodeDto';
 
 describe('/episodes E2E', () => {
   let app: INestApplication<App>;
@@ -37,11 +37,17 @@ describe('/episodes E2E', () => {
 
   it('GET /episodes/:id should return 200', async () => {
 
-    const episode = new Episode(1, 'Episode 1', false);
+    const episodeDto = new EpisodeDto(
+      {
+        title: 'Episode 1',
+        featured: false,
+        publishedAt: new Date()
+      }
+    );
 
     await request(app.getHttpServer())
       .post('/episodes')
-      .send(episode)
+      .send(episodeDto)
       .expect(201);
 
     return await request(app.getHttpServer())
@@ -65,8 +71,17 @@ describe('/episodes E2E', () => {
   });
 
   it('POST /episodes should return 201', async () => {
+    const episodeDto = new EpisodeDto(
+      {
+        title: 'Episode 1',
+        featured: false,
+        publishedAt: new Date()
+      }
+    );
+
     return await request(app.getHttpServer())
       .post('/episodes')
+      .send(episodeDto)
       .expect(201)
       .expect((res) => {
         expect(res.body).not.toBeNull();

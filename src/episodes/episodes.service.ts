@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Episode } from './entities/Episode';
 import { IEpisodesService } from './interfaces/IEpisodesService';
 import { ConfigService } from '../config/config.service';
+import { EpisodeDto } from './dtos/EpisodeDto';
 
 @Injectable()
 export class EpisodesService implements IEpisodesService {    
@@ -11,8 +12,14 @@ export class EpisodesService implements IEpisodesService {
 
     constructor(configService: ConfigService) {}
 
-    async add(episode: Episode): Promise<void> {
-        this.episodes.push(episode);
+    async add(episodeDto: EpisodeDto): Promise<void> { 
+        const newEpisode = new Episode(
+            this.episodes.concat().length + 1,
+            episodeDto.title, 
+            !!episodeDto.featured,
+            episodeDto.publishedAt
+        );
+        this.episodes.push(newEpisode);
     }
 
     async findAll(sort: 'asc' | 'desc' = 'asc', limit?: number): Promise<Episode[]> {

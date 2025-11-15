@@ -1,8 +1,8 @@
-import { Body, Controller, DefaultValuePipe, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query, ValidationPipe } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { ConfigService } from '../config/config.service';
 import { IsPositivePipe } from '../pipes/is-positive/is-positive.pipe';
-
+import { EpisodeDto } from './dtos/EpisodeDto';
 @Controller('episodes')
 export class EpisodesController {
     constructor(
@@ -34,7 +34,7 @@ export class EpisodesController {
 
     @Post()
     @HttpCode(201)
-    async create(@Body() episode) {
+    async create(@Body(ValidationPipe) episode : EpisodeDto) {
         return await this.episodesService.add(episode);
     }
 }
