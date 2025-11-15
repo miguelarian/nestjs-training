@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { ConfigService } from '../config/config.service';
+import { IsPositivePipe } from '../pipes/is-positive/is-positive.pipe';
 
 @Controller('episodes')
 export class EpisodesController {
@@ -10,8 +11,11 @@ export class EpisodesController {
     ) {}
 
     @Get()
-    async findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
-        return await this.episodesService.findAll(sort);
+    async findAll(
+        @Query('limit', new DefaultValuePipe(100), ParseIntPipe, IsPositivePipe) limit?: number,
+        @Query('sort') sort: 'asc' | 'desc' = 'asc'
+    ) {
+        return await this.episodesService.findAll(sort, limit);
     }
 
     @Get('featured')

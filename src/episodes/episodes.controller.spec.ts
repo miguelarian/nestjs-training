@@ -4,6 +4,7 @@ import { EpisodesService } from './episodes.service';
 import { IEpisodesService } from './interfaces/IEpisodesService';
 import { Episode } from './entities/Episode';
 import { ConfigModule } from '../config/config.module';
+import { IsPositivePipe } from '../pipes/is-positive/is-positive.pipe';
 
 describe('EpisodesController', () => {
   let controller: EpisodesController;
@@ -28,7 +29,8 @@ describe('EpisodesController', () => {
       imports: [ConfigModule],
       controllers: [EpisodesController],
       providers: [
-        { provide: EpisodesService, useValue: mockEpisodesService }
+        { provide: EpisodesService, useValue: mockEpisodesService },
+        IsPositivePipe
       ],
     }).compile();
 
@@ -37,39 +39,43 @@ describe('EpisodesController', () => {
 
   describe('GET endpoints', () => {
     it('should return all episodes in ascending order by default', async () => {
-      const result = await controller.findAll();
+      const noLimit = undefined;
+      const result = await controller.findAll(noLimit);
       
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
+      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc', noLimit);
     });
 
     it('should return all episodes in ascending order when sort param is "asc"', async () => {
-      const result = await controller.findAll('asc');
+      const noLimit = undefined;
+      const result = await controller.findAll(noLimit, 'asc');
       
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
+      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc', noLimit);
     });
 
     it('should return all episodes in descending order when sort param is "desc"', async () => {
-      const result = await controller.findAll('desc');
+      const noLimit = undefined;
+      const result = await controller.findAll(noLimit, 'desc');
 
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('desc');
+      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('desc', noLimit);
     });
 
     it('should return all episodes in ascending order when sort param is invalid', async () => {
-      const result = await controller.findAll('invalid' as any);
+      const noLimit = undefined;
+      const result = await controller.findAll(noLimit, 'invalid' as any);
 
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
       expect(mockEpisodesService.findAll).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('invalid');
+      expect(mockEpisodesService.findAll).toHaveBeenCalledWith('invalid', noLimit);
     });
 
     it('should return featured episodes', async () => {

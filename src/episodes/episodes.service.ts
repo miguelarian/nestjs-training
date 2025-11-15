@@ -15,11 +15,12 @@ export class EpisodesService implements IEpisodesService {
         this.episodes.push(episode);
     }
 
-    async findAll(sort: 'asc' | 'desc' = 'asc'): Promise<Episode[]> {
+    async findAll(sort: 'asc' | 'desc' = 'asc', limit?: number): Promise<Episode[]> {
+        const limitedEpisodes = limit ? this.episodes.slice(0, limit) : this.episodes;
         if (sort === 'desc') {
-            return [...this.episodes].sort((a, b) => b.id - a.id);
+            return [...limitedEpisodes].sort((a, b) => b.id - a.id);
         }
-        return [...this.episodes].sort((a, b) => a.id - b.id);
+        return [...limitedEpisodes].sort((a, b) => a.id - b.id);
     }
 
     async findById(id: number): Promise<Episode | undefined> {
