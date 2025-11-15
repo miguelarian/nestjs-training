@@ -1,14 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
+import { HealthDto } from './dto/HealthDto';
 
 @Controller('health')
 export class HealthController {
     constructor() {}
     @Get()
-    health(): { status: string; timestamp: string; version: string } {
-        return {
-            status: 'ok',
-            timestamp: new Date().toISOString(),
-            version: process.env.npm_package_version || 'unknown',
-        };
+    health(): HealthDto {
+        const healthDto = new HealthDto();
+        healthDto.status = 'ok';
+        healthDto.timestamp = new Date().toISOString();
+        healthDto.version = process.env.npm_package_version || 'unknown';
+        return healthDto;
     }
 }

@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthController } from './health.controller';
+import { HealthDto } from './dto/HealthDto';
 
 describe('HealthController', () => {
   let controller: HealthController;
@@ -11,12 +12,13 @@ describe('HealthController', () => {
 
     controller = module.get<HealthController>(HealthController);
   });
-  const expectedResponse = {
-    status: 'ok',
-    timestamp: expect.any(String),
-    version: process.env.npm_package_version || 'unknown',
-  };
+  
   it('should status OK and NPM version', () => {
+    const expectedResponse = new HealthDto();
+    expectedResponse.status = 'ok';
+    expectedResponse.timestamp = expect.any(String);
+    expectedResponse.version = process.env.npm_package_version || 'unknown';
+    
     expect(controller.health()).toEqual(expectedResponse);
   });
 });

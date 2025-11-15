@@ -20,5 +20,8 @@ describe('/health E2E', () => {
     return request(app.getHttpServer())
       .get('/health')
       .expect(200)
+      .expect((res) => {
+        expect(res.body).not.toBeNull();
+      });
   });
 });
