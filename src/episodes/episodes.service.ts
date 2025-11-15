@@ -11,22 +11,22 @@ export class EpisodesService implements IEpisodesService {
 
     constructor(configService: ConfigService) {}
 
-    add(episode: Episode): void {
+    async add(episode: Episode): Promise<void> {
         this.episodes.push(episode);
     }
 
-    findAll(sort: 'asc' | 'desc' = 'asc'): Episode[] {
+    async findAll(sort: 'asc' | 'desc' = 'asc'): Promise<Episode[]> {
         if (sort === 'desc') {
             return [...this.episodes].sort((a, b) => b.id - a.id);
         }
         return [...this.episodes].sort((a, b) => a.id - b.id);
     }
 
-    findById(id: number): Episode | undefined {
+    async findById(id: number): Promise<Episode | undefined> {
         return this.episodes.find(episode => episode.id === id);
     }
 
-    findFeatured(): Episode[] {
+    async findFeatured(): Promise<Episode[]> {
         return this.episodes.filter(episode => episode.featured);
     }
 }

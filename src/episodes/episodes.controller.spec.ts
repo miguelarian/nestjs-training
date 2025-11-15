@@ -36,8 +36,8 @@ describe('EpisodesController', () => {
   });
 
   describe('GET endpoints', () => {
-    it('should return all episodes in ascending order by default', () => {
-      const result = controller.findAll();
+    it('should return all episodes in ascending order by default', async () => {
+      const result = await controller.findAll();
       
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
@@ -45,8 +45,8 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
     });
 
-    it('should return all episodes in ascending order when sort param is "asc"', () => {
-      const result = controller.findAll('asc');
+    it('should return all episodes in ascending order when sort param is "asc"', async () => {
+      const result = await controller.findAll('asc');
       
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
@@ -54,8 +54,8 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('asc');
     });
 
-    it('should return all episodes in descending order when sort param is "desc"', () => {
-      const result = controller.findAll('desc');
+    it('should return all episodes in descending order when sort param is "desc"', async () => {
+      const result = await controller.findAll('desc');
 
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
@@ -63,8 +63,8 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('desc');
     });
 
-    it('should return all episodes in ascending order when sort param is invalid', () => {
-      const result = controller.findAll('invalid' as any);
+    it('should return all episodes in ascending order when sort param is invalid', async () => {
+      const result = await controller.findAll('invalid' as any);
 
       expect(result).toBeDefined();
       expect(result).toHaveLength(4);
@@ -72,16 +72,16 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findAll).toHaveBeenCalledWith('invalid');
     });
 
-    it('should return featured episodes', () => {
-      const result = controller.findFeatured();
+    it('should return featured episodes', async () => {
+      const result = await controller.findFeatured();
       
       expect(result).toBeDefined();
       expect(result).toHaveLength(2);
       expect(mockEpisodesService.findFeatured).toHaveBeenCalledTimes(1);
     });
 
-    it('should return episode by id', () => {
-      const result = controller.findById(1);
+    it('should return episode by id', async () => {
+      const result = await controller.findById(1);
       
       expect(result).toBeDefined();
       expect(result?.id).toBe(1);
@@ -89,11 +89,11 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findById).toHaveBeenCalledWith(1);
     });
 
-    it('should return undefined for non-existing episode id', () => {
+    it('should return undefined for non-existing episode id', async () => {
       (mockEpisodesService.findById as jest.Mock).mockReturnValueOnce(undefined);
 
       const invalidId = 999;
-      const result = controller.findById(invalidId);
+      const result = await controller.findById(invalidId);
       
       expect(result).toBeUndefined();
       expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
@@ -103,10 +103,10 @@ describe('EpisodesController', () => {
   });
 
   describe('POST endpoint', () => {
-    it('should create a new episode', () => {
+    it('should create a new episode', async () => {
       const newEpisode = new Episode(5, 'Episode 5', false);
 
-      controller.create(newEpisode);
+      await controller.create(newEpisode);
       
       expect(mockEpisodesService.add).toHaveBeenCalledTimes(1);
       expect(mockEpisodesService.add).toHaveBeenCalledWith(newEpisode);

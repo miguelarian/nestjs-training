@@ -10,23 +10,23 @@ export class EpisodesController {
     ) {}
 
     @Get()
-    findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
-        return this.episodesService.findAll(sort);
+    async findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
+        return await this.episodesService.findAll(sort);
     }
 
     @Get('featured')
-    findFeatured() {
-        return this.episodesService.findFeatured();
+    async findFeatured() {
+        return await this.episodesService.findFeatured();
     }
 
     @Get(':id')
-    findById(@Param('id') id: number) {
-        return this.episodesService.findById(id);
+    async findById(@Param('id') id: number) {
+        return await this.episodesService.findById(id);
     }
 
     @Post()
     @HttpCode(201)
-    create(@Body() episode) {
-        return this.episodesService.add(episode);
+    async create(@Body() episode) {
+        return await this.episodesService.add(episode);
     }
 }
