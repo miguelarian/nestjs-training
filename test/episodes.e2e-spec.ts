@@ -70,7 +70,7 @@ describe('/episodes E2E', () => {
       });
   });
 
-  it('POST /episodes should return 201', async () => {
+  it('POST /episodes successful should return 201', async () => {
     const episodeDto = new EpisodeDto(
       {
         title: 'Episode 1',
@@ -87,6 +87,19 @@ describe('/episodes E2E', () => {
         expect(res.body).not.toBeNull();
       });
   }); 
+
+  it('POST /episodes with invalid body should return 400', async () => {
+    const invalidEpisodeDto = undefined
+
+    return await request(app.getHttpServer())
+      .post('/episodes')
+      .send(invalidEpisodeDto)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body).not.toBeNull();
+      });
+  }); 
+
 
   afterAll(async () => {
     await app.close();
