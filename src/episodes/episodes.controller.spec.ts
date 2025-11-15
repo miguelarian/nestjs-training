@@ -28,6 +28,11 @@ describe('EpisodesController', () => {
         .toBe('This action returns all episodes in descending order');
     });
 
+    it('shoud return all epidodes in ascending order when sort param is invalid', () => {
+      expect(controller.findAll('invalid' as any))
+        .toBe('This action returns all episodes in ascending order');
+    });
+
     it('shoud return featured episodes', () => {
       expect(controller.findFeatured())
         .toBe('This action returns featured episodes');

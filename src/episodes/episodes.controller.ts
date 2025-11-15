@@ -4,10 +4,10 @@ import { Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
 export class EpisodesController {
     @Get()
     findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
-        if (sort === 'asc' || sort === null) {
-            return 'This action returns all episodes in ascending order';
+        if (sort === 'desc') {
+            return 'This action returns all episodes in descending order';
         }
-        return 'This action returns all episodes in descending order';
+        return 'This action returns all episodes in ascending order';
     }
 
     @Get('featured')
