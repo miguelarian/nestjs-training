@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
+import { Episode } from '../src/episodes/entities/Episode';
 
 describe('/episodes E2E', () => {
   let app: INestApplication<App>;
@@ -16,8 +17,8 @@ describe('/episodes E2E', () => {
     await app.init();
   });
 
-  it('GET /episodes should return 200', () => {
-    return request(app.getHttpServer())
+  it('GET /episodes should return 200', async () => {
+    return await request(app.getHttpServer())
       .get('/episodes')
       .expect(200)
       .expect((res) => {
@@ -25,8 +26,8 @@ describe('/episodes E2E', () => {
       });
   });
 
-  it('GET /episodes/featured should return 200', () => {
-    return request(app.getHttpServer())
+  it('GET /episodes/featured should return 200', async () => {
+    return await request(app.getHttpServer())
       .get('/episodes/featured')
       .expect(200)
       .expect((res) => {
@@ -34,8 +35,16 @@ describe('/episodes E2E', () => {
       });
   });
 
-  it('GET /episodes/:id should return 200', () => {
-    return request(app.getHttpServer())
+  it('GET /episodes/:id should return 200', async () => {
+
+    const episode = new Episode(1, 'Episode 1', false);
+
+    await request(app.getHttpServer())
+      .post('/episodes')
+      .send(episode)
+      .expect(201);
+
+    return await request(app.getHttpServer())
       .get('/episodes/1')
       .expect(200)
       .expect((res) => {
@@ -43,8 +52,8 @@ describe('/episodes E2E', () => {
       });
   });
 
-  it('POST /episodes should return 201', () => {
-    return request(app.getHttpServer())
+  it('POST /episodes should return 201', async () => {
+    return await request(app.getHttpServer())
       .post('/episodes')
       .expect(201)
       .expect((res) => {
