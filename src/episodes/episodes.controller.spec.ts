@@ -3,7 +3,7 @@ import { EpisodesController } from './episodes.controller';
 import { EpisodesService } from './episodes.service';
 import { IEpisodesService } from './interfaces/IEpisodesService';
 import { Episode } from './entities/Episode';
-import { ConfigService } from '../config/config.service';
+import { ConfigModule } from '../config/config.module';
 
 describe('EpisodesController', () => {
   let controller: EpisodesController;
@@ -18,10 +18,10 @@ describe('EpisodesController', () => {
     } as jest.Mocked<IEpisodesService>;
 
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule],
       controllers: [EpisodesController],
       providers: [
-        { provide: EpisodesService, useValue: mockEpisodesService },
-        ConfigService,
+        { provide: EpisodesService, useValue: mockEpisodesService }
       ],
     }).compile();
 
