@@ -17,9 +17,22 @@ describe('/episodes E2E', () => {
     await app.init();
   });
 
+  it('Unauthenticated requests should return 403', async () => {
+    return await request(app.getHttpServer())
+      .get('/episodes')
+      .expect(403)
+      .expect((res) => {
+        expect(res.body).not.toBeNull();
+        expect(res.body.message).toBe('Forbidden resource');
+        expect(res.body.statusCode).toBe(403);
+        expect(res.body.error).toBe('Forbidden');
+      });
+  });
+
   it('GET /episodes should return 200', async () => {
     return await request(app.getHttpServer())
       .get('/episodes')
+      .set('x-api-key', 'my-secret-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -29,6 +42,7 @@ describe('/episodes E2E', () => {
   it('GET /episodes/featured should return 200', async () => {
     return await request(app.getHttpServer())
       .get('/episodes/featured')
+      .set('x-api-key', 'my-secret-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -47,11 +61,13 @@ describe('/episodes E2E', () => {
 
     await request(app.getHttpServer())
       .post('/episodes')
+      .set('x-api-key', 'my-secret-api-key')
       .send(episodeDto)
       .expect(201);
 
     return await request(app.getHttpServer())
       .get('/episodes/1')
+      .set('x-api-key', 'my-secret-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -61,6 +77,7 @@ describe('/episodes E2E', () => {
   it('GET /episodes/:id should return 404 when episode not found', async () => {
     return await request(app.getHttpServer())
       .get('/episodes/1')
+      .set('x-api-key', 'my-secret-api-key')
       .expect(404)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -81,6 +98,7 @@ describe('/episodes E2E', () => {
 
     return await request(app.getHttpServer())
       .post('/episodes')
+      .set('x-api-key', 'my-secret-api-key')
       .send(episodeDto)
       .expect(201)
       .expect((res) => {
@@ -93,6 +111,7 @@ describe('/episodes E2E', () => {
 
     return await request(app.getHttpServer())
       .post('/episodes')
+      .set('x-api-key', 'my-secret-api-key')
       .send(invalidEpisodeDto)
       .expect(400)
       .expect((res) => {

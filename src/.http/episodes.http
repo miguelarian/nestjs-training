@@ -1,21 +1,30 @@
 ### Get all episodes
 GET http://localhost:3000/episodes
+x-api-key: my-secret-api-key
 
 ### Get all episodes ascending
 GET http://localhost:3000/episodes?sort=asc
+x-api-key: my-secret-api-key
 
 ### Get all episodes descending
 GET http://localhost:3000/episodes?sort=desc
+x-api-key: my-secret-api-key
+### Get all episodes with limit
+GET http://localhost:3000/episodes?limit=2
+x-api-key: my-secret-api-key
 
 ### Get episode by id
 GET http://localhost:3000/episodes/1
+x-api-key: my-secret-api-key
 
 ### Get featured episodes
 GET http://localhost:3000/episodes/featured
+x-api-key: my-secret-api-key
 
 ### Create new episode
 POST http://localhost:3000/episodes
 Content-Type: application/json
+x-api-key: my-secret-api-key
 
 {
     "title": "Episode Title",

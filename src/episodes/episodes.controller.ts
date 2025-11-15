@@ -1,8 +1,11 @@
-import { Body, Controller, DefaultValuePipe, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, HttpCode, NotFoundException, Param, ParseIntPipe, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
 import { ConfigService } from '../config/config.service';
 import { IsPositivePipe } from '../pipes/is-positive/is-positive.pipe';
 import { EpisodeDto } from './dtos/EpisodeDto';
+import { ApiKeyGuard } from '../guards/api-key.guard';
+
+@UseGuards(ApiKeyGuard)
 @Controller('episodes')
 export class EpisodesController {
     constructor(
