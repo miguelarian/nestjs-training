@@ -7,7 +7,7 @@ import { ConfigModule } from '../config/config.module';
 
 describe('EpisodesController', () => {
   let controller: EpisodesController;
-  let mockEpisodesService: IEpisodesService;
+  let mockEpisodesService: jest.Mocked<IEpisodesService>;
 
   beforeEach(async () => {
     const episodes : Episode[] = [
@@ -22,7 +22,7 @@ describe('EpisodesController', () => {
       findFeatured: jest.fn().mockReturnValue(episodes.filter(e => e.featured)),
       findById: jest.fn().mockReturnValue(episodes[0]),
       add: jest.fn(),
-    } as jest.Mocked<IEpisodesService>;
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
@@ -89,15 +89,13 @@ describe('EpisodesController', () => {
       expect(mockEpisodesService.findById).toHaveBeenCalledWith(1);
     });
 
-    it('should return undefined for non-existing episode id', async () => {
-      (mockEpisodesService.findById as jest.Mock).mockReturnValueOnce(undefined);
-
-      const invalidId = 999;
-      const result = await controller.findById(invalidId);
+    it('should throw an error for non-existing episode id', async () => {
       
-      expect(result).toBeUndefined();
-      expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findById).toHaveBeenCalledWith(invalidId);
+      mockEpisodesService.findById.mockReturnValueOnce(Promise.resolve(undefined));
+
+      const invalidId = -1;
+      
+      await expect(controller.findById(invalidId)).rejects.toThrow('Episode not found');
     });
 
   });
