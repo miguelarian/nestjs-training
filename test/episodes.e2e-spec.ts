@@ -8,6 +8,10 @@ import { EpisodeDto } from '../src/episodes/dtos/EpisodeDto';
 describe('/episodes E2E', () => {
   let app: INestApplication<App>;
 
+  beforeAll(() => {
+    process.env.API_KEY = 'my-test-api-key';
+  });
+
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
@@ -32,7 +36,7 @@ describe('/episodes E2E', () => {
   it('GET /episodes should return 200', async () => {
     return await request(app.getHttpServer())
       .get('/episodes')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -42,7 +46,7 @@ describe('/episodes E2E', () => {
   it('GET /episodes/featured should return 200', async () => {
     return await request(app.getHttpServer())
       .get('/episodes/featured')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -61,13 +65,13 @@ describe('/episodes E2E', () => {
 
     await request(app.getHttpServer())
       .post('/episodes')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .send(episodeDto)
       .expect(201);
 
     return await request(app.getHttpServer())
       .get('/episodes/1')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -77,7 +81,7 @@ describe('/episodes E2E', () => {
   it('GET /episodes/:id should return 404 when episode not found', async () => {
     return await request(app.getHttpServer())
       .get('/episodes/1')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .expect(404)
       .expect((res) => {
         expect(res.body).not.toBeNull();
@@ -98,7 +102,7 @@ describe('/episodes E2E', () => {
 
     return await request(app.getHttpServer())
       .post('/episodes')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .send(episodeDto)
       .expect(201)
       .expect((res) => {
@@ -111,7 +115,7 @@ describe('/episodes E2E', () => {
 
     return await request(app.getHttpServer())
       .post('/episodes')
-      .set('x-api-key', 'my-secret-api-key')
+      .set('x-api-key', 'my-test-api-key')
       .send(invalidEpisodeDto)
       .expect(400)
       .expect((res) => {
