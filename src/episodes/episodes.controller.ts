@@ -1,28 +1,31 @@
-import { Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { EpisodesService } from './episodes.service';
 
 @Controller('episodes')
 export class EpisodesController {
+    private readonly episodesService: EpisodesService;
+    constructor(episodesService: EpisodesService) {
+        this.episodesService = episodesService;
+    }
+
     @Get()
     findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
-        if (sort === 'desc') {
-            return 'This action returns all episodes in descending order';
-        }
-        return 'This action returns all episodes in ascending order';
+        return this.episodesService.findAll(sort);
     }
 
     @Get('featured')
     findFeatured() {
-        return 'This action returns featured episodes';
+        return this.episodesService.findFeatured();
     }
 
     @Get(':id')
-    findById(@Param('id') id: string) {
-        return `This action returns episode with id ${id}`;
+    findById(@Param('id') id: number) {
+        return this.episodesService.findById(id);
     }
 
     @Post()
     @HttpCode(201)
-    create() {
-        return 'This action creates a new episode';
+    create(@Body() episode) {
+        return this.episodesService.add(episode);
     }
 }
