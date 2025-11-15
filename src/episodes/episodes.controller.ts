@@ -3,10 +3,7 @@ import { EpisodesService } from './episodes.service';
 
 @Controller('episodes')
 export class EpisodesController {
-    private readonly episodesService: EpisodesService;
-    constructor(episodesService: EpisodesService) {
-        this.episodesService = episodesService;
-    }
+    constructor(private readonly episodesService: EpisodesService) {}
 
     @Get()
     findAll(@Query('sort') sort: 'asc' | 'desc' = 'asc') {
