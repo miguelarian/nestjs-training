@@ -2,14 +2,64 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { EpisodesService } from "./episodes.service";
 import { ConfigModule } from "../config/config.module";
 import { EpisodeDto } from "./dtos/EpisodeDto";
+import { EpisodesRepositoryToken } from "./episodes.repository-dynamo";
+import type { IEpisodesRepository } from "./interfaces/IEpisodesRepository";
 
 describe("EpisodesService", () => {
   let service: EpisodesService;
 
   beforeAll(async () => {
+    const inMemory: EpisodeDto[] = [];
+    const mockRepo: IEpisodesRepository = {
+      async add(dto: EpisodeDto) {
+        inMemory.push(dto);
+      },
+      async findAll(sort: "asc" | "desc" = "asc", limit?: number) {
+        const episodes = inMemory.map(
+          (e, i) =>
+            ({
+              id: i + 1,
+              title: e.title,
+              featured: !!e.featured,
+              publishedAt: e.publishedAt,
+            }) as any,
+        );
+        const sorted = episodes.sort((a, b) =>
+          sort === "desc" ? b.id - a.id : a.id - b.id,
+        );
+        return limit ? sorted.slice(0, limit) : sorted;
+      },
+      async findById(id: number) {
+        const dto = inMemory[id - 1];
+        if (!dto) return undefined;
+        return {
+          id,
+          title: dto.title,
+          featured: !!dto.featured,
+          publishedAt: dto.publishedAt,
+        } as any;
+      },
+      async findFeatured() {
+        return inMemory
+          .map(
+            (e, i) =>
+              ({
+                id: i + 1,
+                title: e.title,
+                featured: !!e.featured,
+                publishedAt: e.publishedAt,
+              }) as any,
+          )
+          .filter((e) => e.featured);
+      },
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      providers: [EpisodesService],
+      providers: [
+        EpisodesService,
+        { provide: EpisodesRepositoryToken, useValue: mockRepo },
+      ],
     }).compile();
 
     service = module.get<EpisodesService>(EpisodesService);
