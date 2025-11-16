@@ -22,35 +22,65 @@ describe("/episodes E2E", () => {
   });
 
   it("Unauthenticated requests should return 403", async () => {
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .get("/episodes")
-      .expect(403)
-      .expect((res) => {
-        expect(res.body).not.toBeNull();
-        expect(res.body.message).toBe("Forbidden resource");
-        expect(res.body.statusCode).toBe(403);
-        expect(res.body.error).toBe("Forbidden");
-      });
+      .expect(403);
+
+    expect(response.body).not.toBeNull();
+
+    const errorResponse = response.body as {
+      message: string;
+      statusCode: number;
+      error: string;
+    };
+    expect(errorResponse.message).toBe("Forbidden resource");
+    expect(errorResponse.statusCode).toBe(403);
+    expect(errorResponse.error).toBe("Forbidden");
   });
 
   it("GET /episodes should return 200", async () => {
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .get("/episodes")
       .set("x-api-key", "my-test-api-key")
-      .expect(200)
-      .expect((res) => {
-        expect(res.body).not.toBeNull();
-      });
+      .expect(200);
+
+    expect(response.body).not.toBeNull();
+    expect(Array.isArray(response.body)).toBe(true);
+
+    const episodes = response.body as Array<{
+      id?: number;
+      title: string;
+      featured: boolean;
+      publishedAt: string;
+    }>;
+
+    // Verify it's an array (could be empty initially)
+    expect(episodes).toBeInstanceOf(Array);
   });
 
   it("GET /episodes/featured should return 200", async () => {
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .get("/episodes/featured")
       .set("x-api-key", "my-test-api-key")
-      .expect(200)
-      .expect((res) => {
-        expect(res.body).not.toBeNull();
+      .expect(200);
+
+    expect(response.body).not.toBeNull();
+    expect(Array.isArray(response.body)).toBe(true);
+
+    const featuredEpisodes = response.body as Array<{
+      id?: number;
+      title: string;
+      featured: boolean;
+      publishedAt: string;
+    }>;
+
+    // Verify it's an array and if there are episodes, they should be featured
+    expect(featuredEpisodes).toBeInstanceOf(Array);
+    if (featuredEpisodes.length > 0) {
+      featuredEpisodes.forEach((episode) => {
+        expect(episode.featured).toBe(true);
       });
+    }
   });
 
   it("GET /episodes/:id should return 200", async () => {
@@ -66,25 +96,35 @@ describe("/episodes E2E", () => {
       .send(episodeDto)
       .expect(201);
 
-    return await request(app.getHttpServer())
+    return request(app.getHttpServer())
       .get("/episodes/1")
       .set("x-api-key", "my-test-api-key")
       .expect(200)
       .expect((res) => {
         expect(res.body).not.toBeNull();
+
+        const episode = res.body as { title: string; featured: boolean };
+        expect(episode.title).toBe("Episode 1");
+        expect(episode.featured).toBe(false);
       });
   });
 
   it("GET /episodes/:id should return 404 when episode not found", async () => {
-    return await request(app.getHttpServer())
+    return request(app.getHttpServer())
       .get("/episodes/1")
       .set("x-api-key", "my-test-api-key")
       .expect(404)
       .expect((res) => {
         expect(res.body).not.toBeNull();
-        expect(res.body.message).toBe("Episode not found");
-        expect(res.body.statusCode).toBe(404);
-        expect(res.body.error).toBe("Not Found");
+
+        const errorResponse = res.body as {
+          message: string;
+          statusCode: number;
+          error: string;
+        };
+        expect(errorResponse.message).toBe("Episode not found");
+        expect(errorResponse.statusCode).toBe(404);
+        expect(errorResponse.error).toBe("Not Found");
       });
   });
 
@@ -95,27 +135,34 @@ describe("/episodes E2E", () => {
       publishedAt: new Date(),
     });
 
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post("/episodes")
       .set("x-api-key", "my-test-api-key")
       .send(episodeDto)
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).not.toBeNull();
-      });
+      .expect(201);
+
+    expect(response.body).not.toBeNull();
   });
 
   it("POST /episodes with invalid body should return 400", async () => {
     const invalidEpisodeDto = undefined;
 
-    return await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post("/episodes")
       .set("x-api-key", "my-test-api-key")
       .send(invalidEpisodeDto)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body).not.toBeNull();
-      });
+      .expect(400);
+
+    expect(response.body).not.toBeNull();
+
+    const errorResponse = response.body as {
+      message: string;
+      statusCode: number;
+      error: string;
+    };
+    expect(errorResponse.statusCode).toBe(400);
+    expect(errorResponse.error).toBe("Bad Request");
+    expect(errorResponse.message).toBeDefined();
   });
 
   afterAll(async () => {

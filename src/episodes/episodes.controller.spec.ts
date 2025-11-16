@@ -73,6 +73,7 @@ describe("EpisodesController", () => {
 
     it("should return all episodes in ascending order when sort param is invalid", async () => {
       const noLimit = undefined;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       const result = await controller.findAll(noLimit, "invalid" as any);
 
       expect(result).toBeDefined();

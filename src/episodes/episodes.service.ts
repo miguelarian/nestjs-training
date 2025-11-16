@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from "@nestjs/common";
 import { Episode } from "./entities/Episode";
 import { IEpisodesService } from "./interfaces/IEpisodesService";
@@ -8,8 +9,6 @@ import { EpisodeDto } from "./dtos/EpisodeDto";
 export class EpisodesService implements IEpisodesService {
   private readonly configService: ConfigService;
   private readonly episodes: Episode[] = [];
-
-  constructor(configService: ConfigService) {}
 
   async add(episodeDto: EpisodeDto): Promise<void> {
     const newEpisode = new Episode(

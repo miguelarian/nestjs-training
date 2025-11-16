@@ -14,28 +14,29 @@ describe("EpisodesService", () => {
 
     service = module.get<EpisodesService>(EpisodesService);
 
-    service.add(
+    await service.add(
       new EpisodeDto({
         title: "Episode 1",
         featured: false,
         publishedAt: new Date(),
       }),
     );
-    service.add(
+
+    await service.add(
       new EpisodeDto({
         title: "Episode 2",
         featured: true,
         publishedAt: new Date(),
       }),
     );
-    service.add(
+    await service.add(
       new EpisodeDto({
         title: "Episode 3",
         featured: false,
         publishedAt: new Date(),
       }),
     );
-    service.add(
+    await service.add(
       new EpisodeDto({
         title: "Episode 4",
         featured: true,
