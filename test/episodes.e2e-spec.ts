@@ -5,17 +5,36 @@ import request from "supertest";
 import { App } from "supertest/types";
 import { AppModule } from "../src/app.module";
 import { EpisodeDto } from "../src/episodes/dtos/EpisodeDto";
+import { EpisodesService } from "../src/episodes/episodes.service";
+import {
+  EpisodesDynamoRepository,
+  EpisodesRepositoryToken,
+} from "../src/episodes/episodes.repository-dynamo";
+import { TestDatabaseSetup } from "./test-setup";
 
 describe("/episodes E2E", () => {
   let app: INestApplication<App>;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     process.env.API_KEY = "my-test-api-key";
+    // Ensure test database table exists
+    await TestDatabaseSetup.createEpisodesTable();
   });
 
   beforeEach(async () => {
+    // Clean up and recreate table for each test to ensure isolation
+    await TestDatabaseSetup.cleanupEpisodesTable();
+    await TestDatabaseSetup.createEpisodesTable();
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
+      providers: [
+        EpisodesService,
+        {
+          provide: EpisodesRepositoryToken,
+          useClass: EpisodesDynamoRepository,
+        },
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -166,7 +185,12 @@ describe("/episodes E2E", () => {
     expect(errorResponse.message).toBeDefined();
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await app.close();
+  });
+
+  afterAll(async () => {
+    // Final cleanup
+    await TestDatabaseSetup.cleanupEpisodesTable();
   });
 });

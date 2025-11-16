@@ -100,7 +100,7 @@ export class EpisodesDynamoRepository implements IEpisodesRepository {
         new PutCommand({
           TableName: this.tableName,
           Item: {
-            id: episode.id.toString(),
+            id: episode.id,
             title: episode.title,
             featured: episode.featured,
             publishedAt: episode.publishedAt.toISOString(),
