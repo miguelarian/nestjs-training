@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
 import { Injectable, Inject } from "@nestjs/common";
 import { Episode } from "./entities/Episode";
 import { IEpisodesService } from "./interfaces/IEpisodesService";
@@ -33,19 +32,14 @@ export class EpisodesService implements IEpisodesService {
     sort: "asc" | "desc" = "asc",
     limit?: number,
   ): Promise<Episode[]> {
-    const all = this.episodes.concat();
-    const limitedEpisodes = limit ? all.slice(0, limit) : all;
-    if (sort === "desc") {
-      return [...limitedEpisodes].sort((a, b) => b.id - a.id);
-    }
-    return [...limitedEpisodes].sort((a, b) => a.id - b.id);
+    return await this.episodesRepository.findAll(sort, limit);
   }
 
   async findById(id: number): Promise<Episode | undefined> {
-    return this.episodes.find((episode) => episode.id === id);
+    return await this.episodesRepository.findById(id);
   }
 
   async findFeatured(): Promise<Episode[]> {
-    return this.episodes.filter((episode) => episode.featured);
+    return await this.episodesRepository.findFeatured();
   }
 }
