@@ -2,12 +2,10 @@
 import { Injectable } from "@nestjs/common";
 import { Episode } from "./entities/Episode";
 import { IEpisodesService } from "./interfaces/IEpisodesService";
-import { ConfigService } from "../config/config.service";
 import { EpisodeDto } from "./dtos/EpisodeDto";
 
 @Injectable()
 export class EpisodesService implements IEpisodesService {
-  private readonly configService: ConfigService;
   private readonly episodes: Episode[] = [];
 
   async add(episodeDto: EpisodeDto): Promise<void> {
