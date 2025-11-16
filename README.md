@@ -31,6 +31,19 @@
 $ pnpm install
 ```
 
+## Environment Configuration
+
+The application automatically loads environment variables from a `.env` file in the project root. The `.env` file contains configuration for:
+
+- `API_KEY`: Secret key for API authentication
+- `EPISODES_TABLE`: DynamoDB table name for episodes
+- `DYNAMODB_LOCAL`: Set to `true` for local DynamoDB development
+- `DYNAMODB_ENDPOINT`: Custom DynamoDB endpoint (defaults to `http://localhost:8000` when `DYNAMODB_LOCAL=true`)
+- `AWS_REGION`: AWS region for DynamoDB
+- `AWS_ACCESS_KEY_ID` & `AWS_SECRET_ACCESS_KEY`: AWS credentials (dummy values for local development)
+
+Environment variables are loaded via `dotenv` on application startup.
+
 ## Compile and run the project
 
 ```bash
