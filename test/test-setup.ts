@@ -46,7 +46,7 @@ export class TestDatabaseSetup {
       );
 
       // Wait for table to be created
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 300));
     } catch (error) {
       console.error("Error creating Episodes table:", error);
       throw error;
@@ -59,7 +59,7 @@ export class TestDatabaseSetup {
     try {
       await this.client.send(new DeleteTableCommand({ TableName: tableName }));
       // Wait for table to be deleted
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 300));
     } catch (error) {
       // Table might not exist, which is fine for cleanup
       console.log("Table cleanup completed (table may not have existed)");
