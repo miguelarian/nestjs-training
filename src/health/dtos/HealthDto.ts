@@ -1,5 +1,5 @@
 export class HealthDto {
-    status: string;
-    timestamp: string;
-    version: string;
+  status: string;
+  timestamp: string;
+  version: string;
 }

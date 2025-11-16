@@ -1,16 +1,15 @@
-import { ApiKeyGuard } from './api-key.guard';
+import { ApiKeyGuard } from "./api-key.guard";
 
-describe('ApiKeyGuard', () => {
-
+describe("ApiKeyGuard", () => {
   beforeAll(() => {
-    process.env.API_KEY = 'test-api-key';
+    process.env.API_KEY = "test-api-key";
   });
 
-  it('should allow access with valid API key', () => {
+  it("should allow access with valid API key", () => {
     const guard = new ApiKeyGuard();
     const mockRequest: any = {
       headers: {
-        'x-api-key': 'test-api-key',
+        "x-api-key": "test-api-key",
       },
     };
     const mockExecutionContext: any = {
@@ -23,11 +22,11 @@ describe('ApiKeyGuard', () => {
     expect(result).toBe(true);
   });
 
-  it('should deny access with invalid API key', () => {
+  it("should deny access with invalid API key", () => {
     const guard = new ApiKeyGuard();
     const mockRequest: any = {
       headers: {
-        'x-api-key': 'invalid-api-key',
+        "x-api-key": "invalid-api-key",
       },
     };
     const mockExecutionContext: any = {
@@ -40,7 +39,7 @@ describe('ApiKeyGuard', () => {
     expect(result).toBe(false);
   });
 
-  it('should deny access when API key is missing', () => {
+  it("should deny access when API key is missing", () => {
     const guard = new ApiKeyGuard();
     const mockRequest: any = {
       headers: {},

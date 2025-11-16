@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HealthController } from './health.controller';
-import { HealthDto } from './dtos/HealthDto';
+import { Test, TestingModule } from "@nestjs/testing";
+import { HealthController } from "./health.controller";
+import { HealthDto } from "./dtos/HealthDto";
 
-describe('HealthController', () => {
+describe("HealthController", () => {
   let controller: HealthController;
 
   beforeEach(async () => {
@@ -12,13 +12,13 @@ describe('HealthController', () => {
 
     controller = module.get<HealthController>(HealthController);
   });
-  
-  it('should status OK and NPM version', () => {
+
+  it("should status OK and NPM version", () => {
     const expectedResponse = new HealthDto();
-    expectedResponse.status = 'ok';
+    expectedResponse.status = "ok";
     expectedResponse.timestamp = expect.any(String);
-    expectedResponse.version = process.env.npm_package_version || 'unknown';
-    
+    expectedResponse.version = process.env.npm_package_version || "unknown";
+
     expect(controller.health()).toEqual(expectedResponse);
   });
 });
