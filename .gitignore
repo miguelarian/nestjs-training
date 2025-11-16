@@ -25,3 +25,12 @@ lerna-debug.log*
 
 # VS Code
 .vscode/
+
+# MacOS
+.DS_Store
+
+# Intellij
+.idea/
+
+# Coverage
+coverage
