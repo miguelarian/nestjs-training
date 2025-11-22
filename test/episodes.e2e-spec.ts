@@ -17,9 +17,13 @@ describe("/episodes E2E", () => {
 
   beforeAll(async () => {
     process.env.API_KEY = "my-test-api-key";
+
+    // Start DynamoDB testcontainer
+    await TestDatabaseSetup.startDynamoDBContainer();
+
     // Ensure test database table exists
     await TestDatabaseSetup.createEpisodesTable();
-  });
+  }, 60000); // Increase timeout for container startup
 
   beforeEach(async () => {
     // Clean up and recreate table for each test to ensure isolation
@@ -190,7 +194,7 @@ describe("/episodes E2E", () => {
   });
 
   afterAll(async () => {
-    // Final cleanup
-    await TestDatabaseSetup.cleanupEpisodesTable();
+    // Stop DynamoDB testcontainer
+    await TestDatabaseSetup.stopDynamoDBContainer();
   });
 });

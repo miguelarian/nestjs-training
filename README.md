@@ -63,12 +63,26 @@ $ pnpm run start:prod
 # unit tests
 $ pnpm run test
 
-# e2e tests
+# e2e tests (uses testcontainers - requires Docker)
 $ pnpm run test:e2e
 
 # test coverage
 $ pnpm run test:cov
 ```
+
+### E2E Testing with Testcontainers
+
+This project uses [Testcontainers](https://testcontainers.com/) for e2e tests to provide consistent database testing environments. The e2e tests automatically:
+
+- Start a DynamoDB Local container before running tests
+- Create and manage test database tables
+- Clean up containers after tests complete
+
+**Requirements for e2e tests:**
+- Docker Desktop (or compatible container runtime)
+- No manual DynamoDB Local setup required
+
+For detailed information about the testcontainers setup, see [docs/TESTCONTAINERS.md](docs/TESTCONTAINERS.md).
 
 ## Deployment
 
