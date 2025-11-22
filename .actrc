@@ -1,0 +1,12 @@
+# Act configuration file
+# Use more complete Ubuntu image that includes common tools
+--platform ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# Use linux/amd64 architecture for consistency
+--container-architecture linux/amd64
+
+# Enable privileged mode for Docker-in-Docker (needed for testcontainers)
+--privileged
+
+# Verbose output for better debugging
+--verbose

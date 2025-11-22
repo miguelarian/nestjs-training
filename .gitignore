@@ -34,3 +34,7 @@ lerna-debug.log*
 
 # Coverage
 coverage
+
+# Act (GitHub Actions local testing)
+.secrets
+.env.local

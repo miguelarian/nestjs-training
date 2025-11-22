@@ -84,6 +84,83 @@ This project uses [Testcontainers](https://testcontainers.com/) for e2e tests to
 
 For detailed information about the testcontainers setup, see [docs/TESTCONTAINERS.md](docs/TESTCONTAINERS.md).
 
+## Testing GitHub Actions Locally with Act
+
+You can test the GitHub Actions CI pipeline locally using [Act](https://github.com/nektos/act), which runs your GitHub Actions workflows locally using Docker.
+
+### Prerequisites
+
+1. **Install Act**: Follow the installation instructions for your platform at [nektos/act](https://github.com/nektos/act#installation)
+2. **Docker**: Ensure Docker is running on your system
+
+### Installation
+
+```bash
+# macOS (using Homebrew)
+brew install act
+
+# Linux (using curl)
+curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+
+# Windows (using chocolatey)
+choco install act-cli
+```
+
+### Running the CI Pipeline Locally
+
+```bash
+# Run all jobs in the CI workflow
+act
+
+# Run only specific jobs (e.g., the 'test' job)
+act -j test
+
+# Run with specific event trigger
+act push
+
+# Run with verbose output for debugging
+act -v
+
+# Use a specific platform (recommended for consistency)
+act --platform ubuntu-latest=catthehacker/ubuntu:act-latest
+```
+
+### Common Act Configuration
+
+Create a `.actrc` file in your project root for consistent behavior:
+
+```bash
+# .actrc
+--platform ubuntu-latest=catthehacker/ubuntu:act-latest
+--container-architecture linux/amd64
+```
+
+### Troubleshooting Act
+
+**Issue: pnpm not found**
+- This is the same error you might see in the actual CI
+- Act may use different base images that don't include pnpm
+- Solution: Use the recommended platform image or specify a custom image
+
+**Issue: Docker-in-Docker not working**
+- Testcontainers requires Docker access
+- Run act with: `act --privileged` or use `act --bind`
+
+**Issue: Missing environment variables**
+- Create a `.env` file or use: `act --env-file .env.local`
+- For secrets, use: `act --secret-file .secrets`
+
+### Limitations
+
+- Some GitHub-specific features may not work identically
+- Performance may differ from actual GitHub runners  
+- Network access and external services behavior may vary
+- Docker-in-Docker scenarios (like testcontainers) may require additional configuration
+
+**Note**: Act is excellent for quick feedback on workflow syntax and basic functionality, but always verify critical changes on actual GitHub Actions runners.
+
+For detailed information about Act setup, troubleshooting, and advanced usage, see [docs/ACT.md](docs/ACT.md).
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
