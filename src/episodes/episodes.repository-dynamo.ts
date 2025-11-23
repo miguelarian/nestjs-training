@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Logger } from "@nestjs/common";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
@@ -10,18 +10,17 @@ import {
   ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
 import { IEpisodesRepository } from "./interfaces/IEpisodesRepository";
-import { EpisodeDto } from "./dtos/EpisodeDto";
 import { Episode } from "./entities/Episode";
 
 export const EpisodesRepositoryToken = Symbol("EpisodesRepositoryToken");
 
-@Injectable()
 export class EpisodesDynamoRepository implements IEpisodesRepository {
   private readonly logger = new Logger(EpisodesDynamoRepository.name);
   private readonly docClient: DynamoDBDocumentClient;
-  private readonly tableName = "Episodes";
+  protected readonly tableName: string;
 
-  constructor() {
+  constructor(tableName: string = "Episodes") {
+    this.tableName = tableName;
     const region = process.env.AWS_REGION || "eu-west1"; // default region (unused for local but required by client)
 
     // Support local DynamoDB on port 8000 when DYNAMODB_LOCAL=true or custom endpoint via DYNAMODB_ENDPOINT.

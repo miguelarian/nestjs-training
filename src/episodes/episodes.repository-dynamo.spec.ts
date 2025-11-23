@@ -194,4 +194,21 @@ describe("Episodes DynamoDB integration tests", () => {
       expect(result).toHaveLength(0);
     });
   });
+
+  describe("DynamoDB exception handling", () => {
+    it("should handle ResourceNotFoundException when table does not exist", async () => {
+      const repositoryWithBadTable = new EpisodesDynamoRepository(
+        "NonExistentTable",
+      );
+
+      const episode = Episode.create(
+        "Test Episode",
+        false,
+        new Date("2024-01-01T00:00:00Z"),
+      );
+
+      // Act & Assert - should throw an exception when trying to add to non-existent table
+      await expect(repositoryWithBadTable.add(episode)).rejects.toThrow();
+    });
+  });
 });
