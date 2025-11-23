@@ -3,13 +3,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import request from "supertest";
 import { App } from "supertest/types";
-import { AppModule } from "../src/app.module";
+import { EpisodesModule } from "../src/episodes/episodes.module";
+import { ApiKeyGuard } from "../src/guards/api-key.guard";
 import { EpisodeDto } from "../src/episodes/dtos/EpisodeDto";
-import { EpisodesService } from "../src/episodes/episodes.service";
-import {
-  EpisodesDynamoRepository,
-  EpisodesRepositoryToken,
-} from "../src/episodes/episodes.repository-dynamo";
 import { TestDatabaseSetup } from "./test-setup";
 
 describe("/episodes E2E", () => {
@@ -26,19 +22,13 @@ describe("/episodes E2E", () => {
   }, 60000); // Increase timeout for container startup
 
   beforeEach(async () => {
-    // Clean up and recreate table for each test to ensure isolation
+    // Clean up and recreate the table for each test to ensure isolation
     await TestDatabaseSetup.cleanupEpisodesTable();
     await TestDatabaseSetup.createEpisodesTable();
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-      providers: [
-        EpisodesService,
-        {
-          provide: EpisodesRepositoryToken,
-          useClass: EpisodesDynamoRepository,
-        },
-      ],
+      imports: [EpisodesModule],
+      providers: [ApiKeyGuard],
     }).compile();
 
     app = moduleFixture.createNestApplication();
