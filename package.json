@@ -77,7 +77,8 @@
     "collectCoverageFrom": [
       "src/**/*.(t|j)s",
       "!src/**/*.spec.ts",
-      "!src/**/*.e2e-spec.ts"
+      "!src/**/*.e2e-spec.ts",
+      "!src/main.ts"
     ],
     "coverageDirectory": "coverage",
     "testEnvironment": "node",
