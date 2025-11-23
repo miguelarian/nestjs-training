@@ -11,6 +11,7 @@
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
 <a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://codecov.io/gh/miguelvela/nestjs-training" target="_blank"><img src="https://codecov.io/gh/miguelvela/nestjs-training/branch/master/graph/badge.svg" alt="Codecov" /></a>
 <a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
 <a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
 <a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
@@ -69,6 +70,17 @@ $ pnpm run test:e2e
 # test coverage
 $ pnpm run test:cov
 ```
+
+## Code Coverage Reporting
+
+The CI/CD pipeline automatically generates and publishes code coverage reports to [Codecov](https://codecov.io) after running the test suite. This provides:
+
+- **Detailed Coverage Reports**: View line-by-line coverage for each file
+- **Pull Request Analysis**: Automatic coverage comparison on PRs
+- **Coverage Trends**: Track coverage changes over time
+- **Branch Coverage**: Monitor coverage across different branches
+
+Coverage reports are generated using Jest's built-in coverage functionality and uploaded to Codecov during the CI pipeline execution. You can view the latest coverage report by clicking the Codecov badge above.
 
 ### E2E Testing with Testcontainers
 
