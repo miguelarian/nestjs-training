@@ -96,7 +96,7 @@ This project uses [Testcontainers](https://testcontainers.com/) for e2e tests to
 
 - Start a DynamoDB Local container before running tests
 - Create and manage test database tables
-- Clean up containers after tests complete
+- Clean up containers after tests are complete
 
 **Requirements for e2e tests:**
 - Docker Desktop (or compatible container runtime)
