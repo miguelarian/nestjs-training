@@ -4,9 +4,30 @@
 <a href="https://github.com/miguelarian/nestjs-training/actions/workflows/ci.yml" target="_blank"><img src="https://img.shields.io/github/actions/workflow/status/miguelarian/nestjs-training/ci.yml?branch=main&label=build" alt="Build Status" /></a>
 <a href="https://app.codecov.io/github/miguelarian/nestjs-training" target="_blank"><img src="https://codecov.io/github/miguelarian/nestjs-training/graph/badge.svg?token=Y6CTHBWGV2" alt="Codecov" /></a>
 <a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/license/miguelarian/nestjs-training" alt="License" /></a>
+<a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/last-commit/miguelarian/nestjs-training" alt="Last Commit" /></a>
+</p>
+
+<p align="center">
 <a href="https://nodejs.org" target="_blank"><img src="https://img.shields.io/badge/node-24-brightgreen?logo=node.js&logoColor=white" alt="Node Version" /></a>
 <a href="https://www.typescriptlang.org" target="_blank"><img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" alt="TypeScript" /></a>
 <a href="https://nestjs.com" target="_blank"><img src="https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white" alt="NestJS" /></a>
+<a href="https://pnpm.io" target="_blank"><img src="https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white" alt="PNPM" /></a>
+<a href="https://jestjs.io" target="_blank"><img src="https://img.shields.io/badge/Jest-C21325?logo=jest&logoColor=white" alt="Jest" /></a>
+<a href="https://docker.com" target="_blank"><img src="https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white" alt="Docker" /></a>
+</p>
+
+<p align="center">
+<a href="https://aws.amazon.com/dynamodb" target="_blank"><img src="https://img.shields.io/badge/DynamoDB-4053D6?logo=amazon-dynamodb&logoColor=white" alt="DynamoDB" /></a>
+<a href="https://aws.amazon.com" target="_blank"><img src="https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white" alt="AWS" /></a>
+<a href="https://testcontainers.com" target="_blank"><img src="https://img.shields.io/badge/Testcontainers-9B489A?logo=testcontainers&logoColor=white" alt="Testcontainers" /></a>
+<a href="https://eslint.org" target="_blank"><img src="https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white" alt="ESLint" /></a>
+</p>
+
+<p align="center">
+<a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/languages/top/miguelarian/nestjs-training" alt="Top Language" /></a>
+<a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/languages/code-size/miguelarian/nestjs-training" alt="Code Size" /></a>
+<a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/repo-size/miguelarian/nestjs-training" alt="Repo Size" /></a>
+<a href="https://github.com/miguelarian/nestjs-training/commits/main" target="_blank"><img src="https://img.shields.io/github/commit-activity/m/miguelarian/nestjs-training" alt="Commit Activity" /></a>
 </p>
 
 ## Description
