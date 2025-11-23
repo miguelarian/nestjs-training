@@ -20,4 +20,14 @@ describe("HealthController", () => {
 
     expect(controller.health()).toEqual(expectedResponse);
   });
+
+  it("should status OK and default version", () => {
+    delete process.env.npm_package_version;
+
+    const expectedResponse = new HealthDto();
+    expectedResponse.status = "ok";
+    expectedResponse.version = "unknown";
+
+    expect(controller.health()).toEqual(expectedResponse);
+  });
 });
