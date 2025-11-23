@@ -6,17 +6,39 @@ import { Episode } from "./entities/Episode";
 import { ConfigModule } from "../config/config.module";
 import { IsPositivePipe } from "../pipes/is-positive/is-positive.pipe";
 import { EpisodeDto } from "./dtos/EpisodeDto";
+import { v4 as uuidv4 } from "uuid";
 
 describe("EpisodesController", () => {
   let controller: EpisodesController;
   let mockEpisodesService: jest.Mocked<IEpisodesService>;
+  let episodes: Episode[];
 
   beforeEach(async () => {
-    const episodes: Episode[] = [
-      { id: 1, title: "Episode 1", featured: false, publishedAt: new Date() },
-      { id: 2, title: "Episode 2", featured: true, publishedAt: new Date() },
-      { id: 3, title: "Episode 3", featured: false, publishedAt: new Date() },
-      { id: 4, title: "Episode 4", featured: true, publishedAt: new Date() },
+    episodes = [
+      {
+        id: uuidv4(),
+        title: "Episode 1",
+        featured: false,
+        publishedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        title: "Episode 2",
+        featured: true,
+        publishedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        title: "Episode 3",
+        featured: false,
+        publishedAt: new Date(),
+      },
+      {
+        id: uuidv4(),
+        title: "Episode 4",
+        featured: true,
+        publishedAt: new Date(),
+      },
     ];
 
     mockEpisodesService = {
@@ -94,12 +116,14 @@ describe("EpisodesController", () => {
     });
 
     it("should return episode by id", async () => {
-      const result = await controller.findById(1);
+      const episodeId = episodes[0].id;
+
+      const result = await controller.findById(episodeId);
 
       expect(result).toBeDefined();
-      expect(result?.id).toBe(1);
+      expect(result?.id).toBe(episodeId);
       expect(mockEpisodesService.findById).toHaveBeenCalledTimes(1);
-      expect(mockEpisodesService.findById).toHaveBeenCalledWith(1);
+      expect(mockEpisodesService.findById).toHaveBeenCalledWith(episodeId);
     });
 
     it("should throw an error for non-existing episode id", async () => {
@@ -107,7 +131,7 @@ describe("EpisodesController", () => {
         Promise.resolve(undefined),
       );
 
-      const invalidId = -1;
+      const invalidId = "invalid-id";
 
       await expect(controller.findById(invalidId)).rejects.toThrow(
         "Episode not found",

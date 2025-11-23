@@ -41,8 +41,8 @@ export class EpisodesController {
   }
 
   @Get(":id")
-  async findById(@Param("id") id: number) {
-    const episode = await this.episodesService.findById(Number(id));
+  async findById(@Param("id") id: string) {
+    const episode = await this.episodesService.findById(id);
     if (!episode) {
       throw new NotFoundException("Episode not found");
     }

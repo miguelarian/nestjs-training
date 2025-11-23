@@ -17,15 +17,10 @@ export class EpisodesService implements IEpisodesService {
     this.episodesRepository = episodesRepository;
   }
 
-  async add(episodeDto: EpisodeDto): Promise<void> {
-    const newEpisode = new Episode(
-      this.episodes.concat().length + 1,
-      episodeDto.title,
-      !!episodeDto.featured,
-      episodeDto.publishedAt,
-    );
-    this.episodes.push(newEpisode);
-    await this.episodesRepository.add(episodeDto);
+  async add(episodeDto: EpisodeDto): Promise<Episode> {
+    const createdEpisode = await this.episodesRepository.add(episodeDto);
+    this.episodes.push(createdEpisode);
+    return createdEpisode;
   }
 
   async findAll(
@@ -35,7 +30,7 @@ export class EpisodesService implements IEpisodesService {
     return await this.episodesRepository.findAll(sort, limit);
   }
 
-  async findById(id: number): Promise<Episode | undefined> {
+  async findById(id: string): Promise<Episode | undefined> {
     return await this.episodesRepository.findById(id);
   }
 

@@ -66,7 +66,7 @@ export class TestDatabaseSetup {
           AttributeDefinitions: [
             {
               AttributeName: "id",
-              AttributeType: "N", // Number type
+              AttributeType: "S", // uuid as string
             },
           ],
           BillingMode: "PAY_PER_REQUEST",

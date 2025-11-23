@@ -62,7 +62,7 @@ describe("/episodes E2E", () => {
     expect(Array.isArray(response.body)).toBe(true);
 
     const episodes = response.body as Array<{
-      id?: number;
+      id?: string;
       title: string;
       featured: boolean;
       publishedAt: string;
@@ -82,7 +82,7 @@ describe("/episodes E2E", () => {
     expect(Array.isArray(response.body)).toBe(true);
 
     const featuredEpisodes = response.body as Array<{
-      id?: number;
+      id?: string;
       title: string;
       featured: boolean;
       publishedAt: string;
@@ -104,14 +104,16 @@ describe("/episodes E2E", () => {
       publishedAt: new Date(),
     });
 
-    await request(app.getHttpServer())
+    const response = await request(app.getHttpServer())
       .post("/episodes")
       .set("x-api-key", "my-test-api-key")
       .send(episodeDto)
       .expect(201);
 
+    const createdEpisode = response.body as { id: string };
+
     return request(app.getHttpServer())
-      .get("/episodes/1")
+      .get("/episodes/" + createdEpisode.id)
       .set("x-api-key", "my-test-api-key")
       .expect(200)
       .expect((res) => {
@@ -125,7 +127,7 @@ describe("/episodes E2E", () => {
 
   it("GET /episodes/:id should return 404 when episode not found", async () => {
     return request(app.getHttpServer())
-      .get("/episodes/1")
+      .get("/episodes/non-existent-id")
       .set("x-api-key", "my-test-api-key")
       .expect(404)
       .expect((res) => {

@@ -4,6 +4,7 @@ import { ConfigModule } from "../config/config.module";
 import { EpisodesRepositoryToken } from "./episodes.repository-dynamo";
 import type { IEpisodesRepository } from "./interfaces/IEpisodesRepository";
 import { Episode } from "./entities/Episode";
+import { v4 as uuidv4 } from "uuid";
 
 describe("EpisodesService", () => {
   let service: EpisodesService;
@@ -12,7 +13,14 @@ describe("EpisodesService", () => {
 
   beforeAll(async () => {
     for (let i = 1; i <= 3; i++) {
-      inMemory.push(new Episode(i, `Episode ${i}`, false, new Date()));
+      inMemory.push(
+        Episode.fromData(
+          uuidv4(),
+          `Episode ${i}`,
+          false,
+          new Date(Date.now() + i * 1000),
+        ),
+      );
     }
 
     mockRepo = {
@@ -35,26 +43,26 @@ describe("EpisodesService", () => {
     service = module.get<EpisodesService>(EpisodesService);
   });
 
-  it("findAll should return all episodes in ascending order by default", async () => {
+  it("findAll should return all episodes in ascending order by date by default", async () => {
     const result = await service.findAll();
-    expect(result[0].id).toBeLessThan(result[1].id);
-    expect(result[1].id).toBeLessThan(result[2].id);
+    expect(result[0].id.localeCompare(result[0].id)).toBeLessThan(1);
+    expect(result[1].id.localeCompare(result[1].id)).toBeLessThan(2);
   });
 
   it("findById should return undefined when no episodes exist for a invalid ID", async () => {
-    const nonExistingId = -1;
+    const nonExistingId = "invalid-id";
     const episode = await service.findById(nonExistingId);
     expect(episode).toBeUndefined();
   });
 
   it("findById should return the correct episode for a valid ID", async () => {
-    const existingId = 1;
-
-    mockRepo.findById = jest.fn().mockImplementation((id: number) => {
+    const existingId = inMemory[0].id;
+    mockRepo.findById = jest.fn().mockImplementation((id: string) => {
       return Promise.resolve(inMemory.find((e) => e.id === id));
     });
 
     const episode = await service.findById(existingId);
+
     expect(episode).toBeDefined();
     expect(episode?.id).toBe(existingId);
     expect(episode?.title).toBe("Episode 1");
