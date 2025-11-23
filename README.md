@@ -1,7 +1,13 @@
 # NestJS Training Project
 
 <p align="center">
-<a href="https://codecov.io/gh/miguelvela/nestjs-training" target="_blank"><img src="https://codecov.io/gh/miguelvela/nestjs-training/branch/master/graph/badge.svg" alt="Codecov" /></a>
+<a href="https://github.com/miguelarian/nestjs-training/actions/workflows/ci.yml" target="_blank"><img src="https://github.com/miguelarian/nestjs-training/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+<a href="https://github.com/miguelarian/nestjs-training/actions/workflows/ci.yml" target="_blank"><img src="https://img.shields.io/github/actions/workflow/status/miguelarian/nestjs-training/ci.yml?branch=master&label=build" alt="Build Status" /></a>
+<a href="https://app.codecov.io/github/miguelarian/nestjs-training" target="_blank"><img src="https://codecov.io/gh/miguelarian/nestjs-training/branch/master/graph/badge.svg" alt="Codecov" /></a>
+<a href="https://github.com/miguelarian/nestjs-training" target="_blank"><img src="https://img.shields.io/github/license/miguelarian/nestjs-training" alt="License" /></a>
+<a href="https://nodejs.org" target="_blank"><img src="https://img.shields.io/node/v/@nestjs/core" alt="Node Version" /></a>
+<a href="https://www.typescriptlang.org" target="_blank"><img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" alt="TypeScript" /></a>
+<a href="https://nestjs.com" target="_blank"><img src="https://img.shields.io/badge/NestJS-E0234E?logo=nestjs&logoColor=white" alt="NestJS" /></a>
 </p>
 
 ## Description
@@ -55,7 +61,7 @@ $ pnpm run test:cov
 
 ## Code Coverage Reporting
 
-The CI/CD pipeline automatically generates and publishes code coverage reports to [Codecov](https://codecov.io) after running the test suite. This provides:
+The CI/CD pipeline automatically generates and publishes code coverage reports to [Codecov](https://app.codecov.io/github/miguelarian/nestjs-training) after running the test suite. This provides:
 
 - **Detailed Coverage Reports**: View line-by-line coverage for each file
 - **Pull Request Analysis**: Automatic coverage comparison on PRs
