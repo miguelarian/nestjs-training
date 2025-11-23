@@ -9,6 +9,7 @@ import { GenericContainer, StartedTestContainer } from "testcontainers";
 export class TestDatabaseSetup {
   private static client: DynamoDBClient;
   private static container: StartedTestContainer;
+  private static readonly tableName: string = "Episodes";
 
   static async startDynamoDBContainer(): Promise<void> {
     // Start DynamoDB Local container
@@ -44,19 +45,17 @@ export class TestDatabaseSetup {
   }
 
   static async createEpisodesTable(): Promise<void> {
-    const tableName = process.env.EPISODES_TABLE || "Episodes";
-
     try {
       // Check if table exists
       const listResult = await this.client.send(new ListTablesCommand({}));
-      if (listResult.TableNames?.includes(tableName)) {
+      if (listResult.TableNames?.includes(TestDatabaseSetup.tableName)) {
         return; // Table already exists
       }
 
       // Create table
       await this.client.send(
         new CreateTableCommand({
-          TableName: tableName,
+          TableName: TestDatabaseSetup.tableName,
           KeySchema: [
             {
               AttributeName: "id",
@@ -82,10 +81,10 @@ export class TestDatabaseSetup {
   }
 
   static async cleanupEpisodesTable(): Promise<void> {
-    const tableName = process.env.EPISODES_TABLE || "Episodes";
-
     try {
-      await this.client.send(new DeleteTableCommand({ TableName: tableName }));
+      await this.client.send(
+        new DeleteTableCommand({ TableName: TestDatabaseSetup.tableName }),
+      );
       // Wait for table to be deleted
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (err) {

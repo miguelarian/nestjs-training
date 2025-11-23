@@ -18,12 +18,11 @@ export const EpisodesRepositoryToken = Symbol("EpisodesRepositoryToken");
 @Injectable()
 export class EpisodesDynamoRepository implements IEpisodesRepository {
   private readonly logger = new Logger(EpisodesDynamoRepository.name);
-  private readonly tableName: string;
   private readonly docClient: DynamoDBDocumentClient;
+  private readonly tableName = "Episodes";
 
   constructor() {
     const region = process.env.AWS_REGION || "eu-west1"; // default region (unused for local but required by client)
-    this.tableName = process.env.EPISODES_TABLE || "Episodes";
 
     // Support local DynamoDB on port 8000 when DYNAMODB_LOCAL=true or custom endpoint via DYNAMODB_ENDPOINT.
     const isLocal = process.env.DYNAMODB_LOCAL === "true";
