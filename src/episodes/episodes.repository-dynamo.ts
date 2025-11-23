@@ -48,13 +48,7 @@ export class EpisodesDynamoRepository implements IEpisodesRepository {
     });
   }
 
-  async add(episodeDto: EpisodeDto): Promise<Episode> {
-    const episode = Episode.create(
-      episodeDto.title,
-      !!episodeDto.featured,
-      episodeDto.publishedAt,
-    );
-
+  async add(episode: Episode): Promise<Episode> {
     try {
       await this.docClient.send(
         new PutCommand({

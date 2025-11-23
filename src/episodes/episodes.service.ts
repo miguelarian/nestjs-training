@@ -18,7 +18,13 @@ export class EpisodesService implements IEpisodesService {
   }
 
   async add(episodeDto: EpisodeDto): Promise<Episode> {
-    const createdEpisode = await this.episodesRepository.add(episodeDto);
+    const episode = Episode.create(
+      episodeDto.title,
+      !!episodeDto.featured,
+      episodeDto.publishedAt,
+    );
+
+    const createdEpisode = await this.episodesRepository.add(episode);
     this.episodes.push(createdEpisode);
     return createdEpisode;
   }
