@@ -9,4 +9,4 @@
 --privileged
 
 # Verbose output for better debugging
---verbose
+#--verbose
