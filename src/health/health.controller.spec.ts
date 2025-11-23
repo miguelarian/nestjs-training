@@ -16,7 +16,6 @@ describe("HealthController", () => {
   it("should status OK and NPM version", () => {
     const expectedResponse = new HealthDto();
     expectedResponse.status = "ok";
-    expectedResponse.timestamp = new Date().toISOString();
     expectedResponse.version = process.env.npm_package_version || "unknown";
 
     expect(controller.health()).toEqual(expectedResponse);

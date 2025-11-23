@@ -8,7 +8,6 @@ export class HealthController {
   health(): HealthDto {
     const healthDto = new HealthDto();
     healthDto.status = "ok";
-    healthDto.timestamp = new Date().toISOString();
     healthDto.version = process.env.npm_package_version || "unknown";
     return healthDto;
   }
